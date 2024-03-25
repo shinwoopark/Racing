@@ -19,43 +19,26 @@ public class HitSystem : MonoBehaviour
     {
         
     }
-
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.layer == 7)
+        if (other.gameObject.layer == 3)
         {
-            if (gameObject.tag == "Player")
-            {
-                switch (collision.gameObject.tag)
-                {
-                    case "DesertTrap":
-                        if(!GameInstance.instance.bDesertWheel)
-                            CarMoveSystem.CurrentSpeed /= 2;
-                        break;
-                    case "MountainTrap":
-                        if (!GameInstance.instance.bMountainWheel)
-                            CarMoveSystem.CurrentSpeed /= 2;
-                        break;
-                    case "CityTrap":
-                        if (!GameInstance.instance.bCityWheel)
-                            CarMoveSystem.CurrentSpeed /= 2;
-                        break;
-                }
-            }
-            else
-            {
-                CarMoveSystem.CurrentSpeed /= 2;
-            }
-        }       
-    }
+            CarMoveSystem.CurrentSpeed = 0;
+            CarMoveSystem.InputSpeed = 0;
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.gameObject.layer == 3)
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+
+            SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback, ForceMode.Impulse);         
+        }
+
+        if (other.gameObject.layer == 11)
         {
-            Vector3 direction = (collision.transform.position - transform.position).normalized;
+            CarMoveSystem.CurrentSpeed = 0;
+            CarMoveSystem.InputSpeed = 0;
 
-            SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback, ForceMode.Impulse);
+            Vector3 direction = (other.transform.position - transform.position).normalized;
+
+            SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback * 2, ForceMode.Impulse);
         }
     }
 }

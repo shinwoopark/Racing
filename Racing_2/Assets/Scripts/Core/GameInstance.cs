@@ -22,15 +22,20 @@ public class GameInstance : MonoBehaviour
     public int CurrentPlayerEngineLever;
     public int MaxPlayerEngineLever = 3;
 
-    public int CurrentItemInventoryCount;
-    public int MaxItemInventory = 2;
-
     public int CurrentMoney;
     public int[] CurrentInventorys;
 
     void Start()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
     void Update()
     {

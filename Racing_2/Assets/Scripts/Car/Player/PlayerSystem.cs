@@ -5,21 +5,20 @@ using UnityEngine.UI;
 
 public class PlayerSystem : MonoBehaviour
 {
-    enum State {Nomall, SandStorm, Dark}
-    State CurrentState;
-
     public CarMoveSystem CarMoveSystem;
 
     public Rigidbody SphereCollider;
 
-    public float NomallSpeed;
+    private float _nomallSpeed;
 
-    public float FowardPower;
+    private float _fowardPower;
 
-    public Image SandStorm_img, Dark_img;
+    public Image SandStorm_img;
     public GameObject SandStormEffect_gb;
 
     private bool _bDesertOtherItem, _bMountainOtherItem;
+
+    private bool _bSandStorm;
 
     void Start()
     {
@@ -31,25 +30,34 @@ public class PlayerSystem : MonoBehaviour
         if (GameInstance.instance.bRacing)
         {
             UpdateInput();
+
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (GameInstance.instance.bRacing)
+        {
             UpdateState();
-        }        
+        }
     }
 
     public void EngineUpgrade()
     {
+        _nomallSpeed = 8000;
         switch (GameInstance.instance.CurrentPlayerEngineLever)
         {
             case 0:
-                FowardPower = NomallSpeed;
+                _fowardPower = _nomallSpeed;
                 break;
             case 1:
-                FowardPower = NomallSpeed * 1.333f;
+                _fowardPower = _nomallSpeed * 1.333f;
                 break;
             case 2:
-                FowardPower = NomallSpeed * 1.666f;
+                _fowardPower = _nomallSpeed * 1.666f;
                 break;
             case 3:
-                FowardPower = NomallSpeed * 2;
+                _fowardPower = _nomallSpeed * 2;
                 break;
         }
     }
@@ -59,11 +67,11 @@ public class PlayerSystem : MonoBehaviour
         //Foward
         if (Input.GetAxis("Vertical") > 0)
         {
-            CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * FowardPower;
+            CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * _fowardPower;
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
-            CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * FowardPower / 2;
+            CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * _fowardPower / 2;
         }
 
         //Turn
@@ -73,7 +81,7 @@ public class PlayerSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (CarMoveSystem.InputSpeed != 0 &&
-                CarMoveSystem.CurrentSpeed != 0 &&
+                CarMoveSystem.CurrentSpeed >= 0 &&
                 CarMoveSystem.bGround)
             {
                 SphereCollider.AddForce(Vector3.up * 500, ForceMode.Impulse);
@@ -98,19 +106,31 @@ public class PlayerSystem : MonoBehaviour
         }
 
         //Booster
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             if (GameInstance.instance.CurrentInventorys[0] != 0)
             {
-                CarMoveSystem.BoosterNumber = GameInstance.instance.CurrentInventorys[0];
                 CarMoveSystem.CurrentState = CarMoveSystem.State.Booster;
+
+                switch (GameInstance.instance.CurrentInventorys[0])
+                {
+                    case 1:
+                        CarMoveSystem.BoosterSpeed = 1.75f * _fowardPower;
+                        CarMoveSystem.BoosterTime = 1.5f;
+                        break;
+                    case 2:
+                        CarMoveSystem.BoosterSpeed = 2.5f * _fowardPower;
+                        CarMoveSystem.BoosterTime = 2.5f;
+                        break;
+                }
+
                 GameInstance.instance.CurrentInventorys[0] = GameInstance.instance.CurrentInventorys[1];
                 GameInstance.instance.CurrentInventorys[1] = 0;
             }
         }
 
         //OtherItmes
-        if (Input.GetKey(KeyCode.Z))
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             if (GameInstance.instance.bDesertOtherItem)
             {
@@ -121,7 +141,7 @@ public class PlayerSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             if (GameInstance.instance.bMountainOtherItem)
             {
@@ -135,74 +155,43 @@ public class PlayerSystem : MonoBehaviour
 
     private void UpdateState()
     {
-        switch (CurrentState)
+        if (_bSandStorm)
         {
-            case State.Nomall:
-                SandStormEffect_gb.SetActive(false);
-
+            SandStormEffect_gb.SetActive(true);
+            if (_bDesertOtherItem)
+            {
                 if (SandStorm_img.color.a > 0)
                 {
-                    SandStorm_img.color -= new Color(0, 0, 0, 30 * Time.deltaTime);
+                    SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
+
+                    if (SandStorm_img.color.a > 0.95f)
+                        SandStorm_img.color = new Color(0, 0, 0, 0.95f);
+                }
+            }
+            else
+            {
+                if (SandStorm_img.color.a < 0.95f)
+                {
+                    SandStorm_img.color += new Color(0, 0, 0, 0.2f * Time.deltaTime);
 
                     if (SandStorm_img.color.a < 0)
                         SandStorm_img.color = new Color(0, 0, 0, 0);
                 }
-
-                if (Dark_img.color.a > 0)
-                {
-                    Dark_img.color -= new Color(0, 0, 0, 30 * Time.deltaTime);
-
-                    if(Dark_img.color.a < 0)
-                            Dark_img.color = new Color(0, 0, 0, 0);
-                }
-                break;
-            case State.SandStorm:
-                SandStormEffect_gb.SetActive(true);
-                if (_bDesertOtherItem)
-                {
-                    if (SandStorm_img.color.a > 0)
-                    {
-                        SandStorm_img.color -= new Color(0, 0, 0, 30 * Time.deltaTime);
-
-                        if (SandStorm_img.color.a > 0.95f)
-                            SandStorm_img.color = new Color(0, 0, 0, 242.25f);
-                    }
-                }
-                else
-                {
-                    if (SandStorm_img.color.a < 0.95f)
-                    {
-                        SandStorm_img.color += new Color(0, 0, 0, 30 * Time.deltaTime);
-
-                        if (SandStorm_img.color.a < 0)
-                            SandStorm_img.color = new Color(0, 0, 0, 0);
-                    }
-                }              
-                break;
-            case State.Dark:
-                if (_bMountainOtherItem)
-                {
-                    if (Dark_img.color.a > 0)
-                    {
-                        Dark_img.color -= new Color(0, 0, 0, 100 * Time.deltaTime);
-
-                        if (Dark_img.color.a > 0.95f)
-                            Dark_img.color = new Color(0, 0, 0, 242.25f);
-                    }
-                }
-                else
-                {
-                    if (Dark_img.color.a < 0.95f)
-                    {
-                        Dark_img.color += new Color(0, 0, 0, 100 * Time.deltaTime);
-
-                        if (Dark_img.color.a < 0)
-                            Dark_img.color = new Color(0, 0, 0, 0);
-                    }
-                }            
-                break;
+            }
         }
+        else
+        {
+            SandStormEffect_gb.SetActive(false);
 
+            if (SandStorm_img.color.a > 0)
+            {
+                SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
+
+                if (SandStorm_img.color.a > 0.95f)
+                    SandStorm_img.color = new Color(0, 0, 0, 0.95f);
+            }
+        }
+            
     }
 
     private void OnTriggerEnter(Collider other)
@@ -213,10 +202,7 @@ public class PlayerSystem : MonoBehaviour
                 GameManager.instance.EndRacing(true);
                 break;
             case "SandStorm":
-                CurrentState = State.SandStorm;
-                break;
-            case "Dark":
-                CurrentState = State.Dark;
+                _bSandStorm = true;
                 break;
         }
     }
@@ -226,10 +212,7 @@ public class PlayerSystem : MonoBehaviour
         switch (other.gameObject.tag)
         {
             case "SandStorm":
-                CurrentState = State.Nomall;
-                break;
-            case "Dark":
-                CurrentState = State.Nomall;
+                _bSandStorm = false;
                 break;
         }
     }

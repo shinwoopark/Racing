@@ -8,7 +8,7 @@ public class EnemySystem : MonoBehaviour
 
     public Rigidbody SphereCollider;
 
-    public GameObject[] WayPoints_gb;
+    public Transform WayPoint;
     private int _wayPointNumber;
 
     public float FowardPower;
@@ -19,12 +19,15 @@ public class EnemySystem : MonoBehaviour
     public float SideSpeed;
     public float RayLenth;
 
+    bool leftSafe = true;
+    bool rightSafe = true;
+
     void Start()
     {
-        
+        _wayPointNumber = 0;
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         if (GameInstance.instance.bRacing)
         {
@@ -35,9 +38,9 @@ public class EnemySystem : MonoBehaviour
 
     private void UpdateFolloWayPoint()
     {
-        CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * FowardPower;
+        CarMoveSystem.InputSpeed = FowardPower;
 
-        Vector3 dir = WayPoints_gb[_wayPointNumber].transform.position - transform.position;
+        Vector3 dir = WayPoint.GetChild(_wayPointNumber).transform.position - transform.position;
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * RotationSpeed);
     }
@@ -45,23 +48,41 @@ public class EnemySystem : MonoBehaviour
     private void UpdateEvasion()
     {
         RaycastHit Hardlehit;
+        RaycastHit Hardlehit1;
+        RaycastHit Hardlehit2;
+
+        int dir = 2;
 
         Debug.DrawRay(transform.position, transform.forward * RayLenth, Color.red);
+        Debug.DrawRay(transform.position, transform.right * RayLenth, Color.red);
+        Debug.DrawRay(transform.position, -transform.right * RayLenth, Color.red);
+
+        if (Physics.Raycast(transform.position, -transform.right, out Hardlehit1, RayLenth, CarCheck))
+            leftSafe = false;
+        else if (Physics.Raycast(transform.position, transform.right, out Hardlehit2, RayLenth, CarCheck))
+            rightSafe = false;         
 
         if (Physics.Raycast(transform.position, transform.forward, out Hardlehit, RayLenth, CarCheck))
         {
-            int dir = Random.Range(0, 2);
+            if (leftSafe && rightSafe)
+                dir = Random.Range(0, 2);
+            else if (!leftSafe && !rightSafe)
+                dir = Random.Range(0, 2);
+            else if(leftSafe && !rightSafe)
+                dir = 1;
+            else if (!leftSafe && rightSafe)
+                dir = 0;
 
             if (dir == 0)
-                SideSpeed *= -1;
-
-            SphereCollider.AddForce(Vector3.right * SideSpeed, ForceMode.Impulse);
+                SphereCollider.AddForce(Vector3.left * SideSpeed, ForceMode.Impulse);
+            if (dir == 1)
+                SphereCollider.AddForce(Vector3.right * SideSpeed, ForceMode.Impulse);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == WayPoints_gb[_wayPointNumber])
+        if (other.gameObject.transform == WayPoint.GetChild(_wayPointNumber))
         {
             _wayPointNumber++;
         }

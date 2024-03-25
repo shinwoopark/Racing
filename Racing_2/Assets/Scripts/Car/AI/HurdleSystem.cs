@@ -12,32 +12,41 @@ public class HurdleSystem : MonoBehaviour
     public GameObject Player_gb;
     public Transform Player_tr;
 
+    public bool bFindPlayer;
+
     void Start()
     {
-        Player_gb = GameObject.Find("Player").GetComponent<GameObject>();
+        Player_gb = GameObject.Find("Player");
         Player_tr = Player_gb.GetComponent<Transform>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        UpdateFollowPlayer();
+        UpdateMove();
     }
 
-    private void UpdateFollowPlayer()
-    {      
-        CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * FowardPower;
+    private void UpdateMove()
+    {
+        CarMoveSystem.InputSpeed = FowardPower;
 
-        Vector3 dir = transform.position - Player_tr.position;
+        Vector3 dir = new Vector3(0, 0, 0);
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(dir), Time.deltaTime * RotationSpeed);
+        if (bFindPlayer)
+        {
+            dir = transform.position - Player_tr.position;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(-dir), Time.deltaTime * RotationSpeed);
+        }            
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Wall")
         {
-            FowardPower = 0;
-            RotationSpeed = 0;
+            if (bFindPlayer)
+            {
+                FowardPower = 0;
+                RotationSpeed = 0;
+            }              
         }
     }
 }

@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Wall
+  - SandStorm
+  - Pool
+  - DesertTrap
+  - Trap
   layers:
   - Default
   - TransparentFX
@@ -13,10 +19,10 @@ TagManager:
   - UI
   - Item
   - Trap
-  - 
-  - 
-  - 
-  - 
+  - SphereColider
+  - Ground
+  - Wall
+  - Hudle
   - 
   - 
   - 

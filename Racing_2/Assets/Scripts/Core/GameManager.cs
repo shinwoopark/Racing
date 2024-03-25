@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public GameObject GameClear_gb, GameOver_gb;
+    public GameObject GameClearUI, GameOverUI, ShopUI;
 
     private void Awake()
     {
@@ -42,11 +42,11 @@ public class GameManager : MonoBehaviour
 
         if (bplayer)
         {
-            GameClear_gb.SetActive(true);
+            GameClearUI.SetActive(true);
         }
         else
         {
-            GameOver_gb.SetActive(true);
+            GameOverUI.SetActive(true);
         }
     }
 
@@ -62,14 +62,14 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case 2:
-                if (GameInstance.instance.CurrentStage == 1)
+                if (GameInstance.instance.CurrentStage == 2)
                 {
                     SceneManager.LoadScene("Stage3");
                     GameInstance.instance.CurrentStage++;
                 }
                 break;
             case 3:
-                if (GameInstance.instance.CurrentStage == 1)
+                if (GameInstance.instance.CurrentStage == 3)
                 {
                     SceneManager.LoadScene("Stage1");
                     GameInstance.instance.CurrentStage++;
@@ -89,17 +89,31 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case 2:
-                if (GameInstance.instance.CurrentStage == 1)
+                if (GameInstance.instance.CurrentStage == 2)
                 {
                     SceneManager.LoadScene("Stage2");
                 }
                 break;
             case 3:
-                if (GameInstance.instance.CurrentStage == 1)
+                if (GameInstance.instance.CurrentStage == 3)
                 {
                     SceneManager.LoadScene("Stage3");
                 }
                 break;
         }
+    }
+
+    public void OpenShop()
+    {
+        ShopUI.SetActive(true);
+
+        Time.timeScale = 0.1f;
+    }
+
+    public void CloseShop()
+    {
+        ShopUI.SetActive(false);
+
+        Time.timeScale = 1;
     }
 }
