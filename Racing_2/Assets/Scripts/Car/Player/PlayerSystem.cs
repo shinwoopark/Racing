@@ -145,10 +145,10 @@ public class PlayerSystem : MonoBehaviour
         {
             if (GameInstance.instance.bMountainOtherItem)
             {
-                if (bMountainOtherItem)
-                    bMountainOtherItem = false;
-                else if (!bMountainOtherItem)
-                    bMountainOtherItem = true;
+                if (CarMoveSystem.bGlider)
+                    CarMoveSystem.bGlider = false;
+                else if (!CarMoveSystem.bGlider)
+                    CarMoveSystem.bGlider = true;
             }
         }
     }

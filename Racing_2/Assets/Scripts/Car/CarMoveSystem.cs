@@ -40,6 +40,8 @@ public class CarMoveSystem : MonoBehaviour
     //[HideInInspector]
     public float BoosterTime;
 
+    public bool bGlider;
+
     void Start()
     {
         SphereCollider.transform.parent = null;
@@ -134,7 +136,7 @@ public class CarMoveSystem : MonoBehaviour
         }
 
         //Foward
-        if (bGround)
+        if (bGround|| bGlider)
         {
             SphereCollider.drag = 3;
             SphereCollider.AddForce(transform.forward * CurrentSpeed);
@@ -146,7 +148,7 @@ public class CarMoveSystem : MonoBehaviour
         }
 
         //Turn
-        if (bGround)
+        if (bGround || bGlider)
         {
             if (CurrentState == State.Booster)
             {

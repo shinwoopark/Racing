@@ -120,7 +120,7 @@ public class ShopUI : MonoBehaviour
         if (GameInstance.instance.CurrentMoney >= 4000000 && !bSoldOut[7])
         {
             GameInstance.instance.CurrentMoney -= 4000000;
-            GameInstance.instance.bDesertOtherItem = true;
+            GameInstance.instance.bMountainOtherItem = true;
             bSoldOut[7] = true;
         }          
     }
@@ -130,7 +130,7 @@ public class ShopUI : MonoBehaviour
         if (GameInstance.instance.CurrentMoney >= 5000000 && !bSoldOut[8])
         {
             GameInstance.instance.CurrentMoney -= 5000000;
-            GameInstance.instance.bDesertOtherItem = true;
+            GameInstance.instance.bCityOtherItem = true;
             bSoldOut[8] = true;
         }         
     }
