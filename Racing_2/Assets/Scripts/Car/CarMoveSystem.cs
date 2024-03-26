@@ -11,6 +11,8 @@ public class CarMoveSystem : MonoBehaviour
 
     public Rigidbody SphereCollider;
 
+    public GameObject SlowDown_gb;
+
     public Transform LeftFrontWheel, RightFrontWheel;
     public Transform[] Wheels;
 
@@ -65,8 +67,6 @@ public class CarMoveSystem : MonoBehaviour
 
         if (Physics.Raycast(transform.position, -transform.up, out hit, RayLenth, CheckGround))
         {
-            Debug.Log(hit.transform.gameObject.tag);
-
             bGround = true;
 
             if (hit.transform.gameObject.tag == "Trap" || hit.transform.gameObject.tag == "Pool")
@@ -77,20 +77,37 @@ public class CarMoveSystem : MonoBehaviour
                     {
                         case 1:
                             if (!GameInstance.instance.bDesertWheel)
+                            {
+                                SlowDown_gb.SetActive(true);
                                 _trapSlowDown = 0.5f;
+                            }
+                            else
+                                SlowDown_gb.SetActive(false);
+
                             break;
                         case 2:
                             if (!GameInstance.instance.bMountainWheel)
+                            {
+                                SlowDown_gb.SetActive(true);
                                 _trapSlowDown = 0.5f;
+                            }
+                            else
+                                SlowDown_gb.SetActive(false);
                             break;
                         case 3:
                             if (!GameInstance.instance.bCityWheel)
+                            {
+                                SlowDown_gb.SetActive(true);
                                 _trapSlowDown = 0.5f;
+                            }
+                            else
+                                SlowDown_gb.SetActive(false);
                             break;
                     }
 
                     if (hit.transform.gameObject.tag == "Pool")
                     {
+                        SlowDown_gb.SetActive(true);
                         _trapSlowDown = 0.5f;
                     }
                 }
@@ -98,7 +115,12 @@ public class CarMoveSystem : MonoBehaviour
                     _trapSlowDown = 0.5f;
             }
             else
+            {
                 _trapSlowDown = 1;
+
+                if (gameObject.tag == "Player")
+                    SlowDown_gb.SetActive(false);
+            }           
         }
         else
             bGround = false;

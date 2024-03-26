@@ -16,7 +16,7 @@ public class PlayerSystem : MonoBehaviour
     public Image SandStorm_img;
     public GameObject SandStormEffect_gb;
 
-    private bool _bDesertOtherItem, _bMountainOtherItem;
+    public bool bDesertOtherItem, bMountainOtherItem;
 
     private bool _bSandStorm;
 
@@ -30,7 +30,6 @@ public class PlayerSystem : MonoBehaviour
         if (GameInstance.instance.bRacing)
         {
             UpdateInput();
-
         }
     }
 
@@ -81,6 +80,7 @@ public class PlayerSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (CarMoveSystem.InputSpeed != 0 &&
+                CarMoveSystem.InputTurn != 0 &&
                 CarMoveSystem.CurrentSpeed >= 0 &&
                 CarMoveSystem.bGround)
             {
@@ -134,10 +134,10 @@ public class PlayerSystem : MonoBehaviour
         {
             if (GameInstance.instance.bDesertOtherItem)
             {
-                if (_bDesertOtherItem)
-                    _bDesertOtherItem= false;
-                else if (!_bDesertOtherItem)
-                    _bDesertOtherItem = true;
+                if (bDesertOtherItem)
+                    bDesertOtherItem= false;
+                else if (!bDesertOtherItem)
+                    bDesertOtherItem = true;
             }
         }
 
@@ -145,10 +145,10 @@ public class PlayerSystem : MonoBehaviour
         {
             if (GameInstance.instance.bMountainOtherItem)
             {
-                if (_bMountainOtherItem)
-                    _bMountainOtherItem = false;
-                else if (!_bMountainOtherItem)
-                    _bMountainOtherItem = true;
+                if (bMountainOtherItem)
+                    bMountainOtherItem = false;
+                else if (!bMountainOtherItem)
+                    bMountainOtherItem = true;
             }
         }
     }
@@ -158,38 +158,29 @@ public class PlayerSystem : MonoBehaviour
         if (_bSandStorm)
         {
             SandStormEffect_gb.SetActive(true);
-            if (_bDesertOtherItem)
+            if (bDesertOtherItem)
             {
-                if (SandStorm_img.color.a > 0)
-                {
-                    SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
+                SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
 
-                    if (SandStorm_img.color.a > 0.95f)
-                        SandStorm_img.color = new Color(0, 0, 0, 0.95f);
-                }
+                if (SandStorm_img.color.a < 0)
+                    SandStorm_img.color = new Color(0, 0, 0, 0);
             }
             else
             {
-                if (SandStorm_img.color.a < 0.95f)
-                {
-                    SandStorm_img.color += new Color(0, 0, 0, 0.2f * Time.deltaTime);
-
-                    if (SandStorm_img.color.a < 0)
-                        SandStorm_img.color = new Color(0, 0, 0, 0);
-                }
+                SandStorm_img.color += new Color(0, 0, 0, 0.2f * Time.deltaTime);
+               
+                if (SandStorm_img.color.a > 0.95f)
+                    SandStorm_img.color = new Color(0, 0, 0, 0.95f);
             }
         }
         else
         {
             SandStormEffect_gb.SetActive(false);
 
-            if (SandStorm_img.color.a > 0)
-            {
-                SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
+            SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
 
-                if (SandStorm_img.color.a > 0.95f)
-                    SandStorm_img.color = new Color(0, 0, 0, 0.95f);
-            }
+            if (SandStorm_img.color.a < 0)
+                SandStorm_img.color = new Color(0, 0, 0, 0);
         }
             
     }

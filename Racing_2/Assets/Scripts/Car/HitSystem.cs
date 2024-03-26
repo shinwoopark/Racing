@@ -21,7 +21,7 @@ public class HitSystem : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == 3)
+        if (other.gameObject.layer == 3 || other.gameObject.layer == 11)
         {
             CarMoveSystem.CurrentSpeed = 0;
             CarMoveSystem.InputSpeed = 0;
@@ -29,16 +29,6 @@ public class HitSystem : MonoBehaviour
             Vector3 direction = (other.transform.position - transform.position).normalized;
 
             SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback, ForceMode.Impulse);         
-        }
-
-        if (other.gameObject.layer == 11)
-        {
-            CarMoveSystem.CurrentSpeed = 0;
-            CarMoveSystem.InputSpeed = 0;
-
-            Vector3 direction = (other.transform.position - transform.position).normalized;
-
-            SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback * 2, ForceMode.Impulse);
         }
     }
 }
