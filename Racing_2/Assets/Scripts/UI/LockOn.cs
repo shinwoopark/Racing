@@ -16,8 +16,12 @@ public class LockOn : MonoBehaviour
 
     void Update()
     {
-        if(bLockOff)
-            Image.fillAmount -= Time.deltaTime * 30;
+        Debug.Log(bLockOff);
+
+        if (bLockOff)
+            Image.fillAmount -= Time.unscaledDeltaTime * 3;
+        
+            
 
         if (Image.fillAmount <= 0)
             Destroy(gameObject);

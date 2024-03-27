@@ -8,9 +8,11 @@ public class GameInstance : MonoBehaviour
 
     public bool bGamePlay = false;
 
-    public bool bRacing = true;
+    public bool bRacing = false;
 
     public bool bSlow = false;
+
+    public float CurrentTime;
 
     public int CurrentStage;
     public int MaxStage = 3;
@@ -25,7 +27,7 @@ public class GameInstance : MonoBehaviour
     public int CurrentMoney;
     public int[] CurrentInventorys;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {
@@ -36,9 +38,12 @@ public class GameInstance : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        CurrentTime = 0;
     }
     void Update()
     {
-        
+        if (bRacing)
+            CurrentTime += Time.deltaTime;
     }
 }

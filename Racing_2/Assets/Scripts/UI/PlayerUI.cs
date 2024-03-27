@@ -8,7 +8,7 @@ public class PlayerUI : MonoBehaviour
 {
     public PlayerSystem PlayerSystem;
 
-    public TextMeshProUGUI CurrentMoney;
+    public TextMeshProUGUI CurrentMoney, CurrentTime;
 
     [Header("Engine")]
     public Image CurrentEngine;
@@ -31,6 +31,7 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         CurrentMoney.text = GameInstance.instance.CurrentMoney.ToString("N0");
+        CurrentTime.text = GameInstance.instance.CurrentTime.ToString("F2");
 
         switch (GameInstance.instance.CurrentPlayerEngineLever)
         {

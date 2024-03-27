@@ -10,6 +10,8 @@ TagManager:
   - Pool
   - DesertTrap
   - Trap
+  - Item
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -23,9 +25,9 @@ TagManager:
   - Ground
   - Wall
   - Hudle
-  - 
-  - 
-  - 
+  - Booster
+  - Money
+  - Shop
   - 
   - 
   - 

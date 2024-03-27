@@ -1,13 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
     public GameObject GameClearUI, GameOverUI, ShopUI;
+
+    public AudioSource RacingStart, ReadyEngine, Win, lose;
+
+    public TextMeshProUGUI RecodeTime;
 
     private void Awake()
     {
@@ -23,18 +29,15 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        StartRacing();
+        StartCoroutine(StartRacing());
     }
 
     private IEnumerator StartRacing()
     {
-        yield return new WaitForSeconds(5);
-
-        yield return new WaitForSeconds(1);
-
-        yield return new WaitForSeconds(1);
-
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
+        RacingStart.Play();
+        yield return new WaitForSeconds(3);
+        ReadyEngine.Stop();
         GameInstance.instance.bRacing = true;
     }
 
@@ -46,16 +49,20 @@ public class GameManager : MonoBehaviour
 
         if (bplayer)
         {
+            Win.Play();
             GameClearUI.SetActive(true);
+            RecodeTime.text = GameInstance.instance.CurrentTime.ToString("F2");
         }
         else
         {
+            lose.Play();
             GameOverUI.SetActive(true);
         }
     }
 
     public void InputNextScene()
     {
+
         switch (GameInstance.instance.CurrentStage)
         {
             case 1:
@@ -111,7 +118,7 @@ public class GameManager : MonoBehaviour
     {
         ShopUI.SetActive(true);
 
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0;
     }
 
     public void CloseShop()

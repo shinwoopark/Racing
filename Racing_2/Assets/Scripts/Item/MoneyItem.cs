@@ -11,6 +11,7 @@ public class MoneyItem : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             GameInstance.instance.CurrentMoney += Money;
+
             Destroy(gameObject);
         }
     }

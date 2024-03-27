@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574274685541738497}
   - component: {fileID: 4811033435770422793}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Coin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7174674035081189435}
   - component: {fileID: 564697694043360098}
   - component: {fileID: 9048136833119016267}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Flag_free_obs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,9 +178,9 @@ GameObject:
   - component: {fileID: 8475363532347882113}
   - component: {fileID: 8799891041663847283}
   - component: {fileID: 5893685805519310217}
-  m_Layer: 6
+  m_Layer: 14
   m_Name: ShopItem
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

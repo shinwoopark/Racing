@@ -14,7 +14,7 @@ public class SoldOut : MonoBehaviour
 
     void Update()
     {
-        if(gameObject!=null)
-            Image.fillAmount += Time.deltaTime * 30;
+        if (gameObject != null)
+            Image.fillAmount += Time.unscaledDeltaTime * 3;
     }
 }

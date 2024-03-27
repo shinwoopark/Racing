@@ -10,6 +10,8 @@ public class HitSystem : MonoBehaviour
 
     public float Knockback;
 
+    public AudioSource Hit;
+
     void Start()
     {
         
@@ -21,6 +23,14 @@ public class HitSystem : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.tag == "Finish")
+        {
+            if (gameObject.tag == "Player")
+                GameManager.instance.StartCoroutine(GameManager.instance.EndRacing(true));
+            else if(gameObject.tag == "Enemy")
+                GameManager.instance.StartCoroutine(GameManager.instance.EndRacing(false));
+        }
+
         if (other.gameObject.layer == 3 || other.gameObject.layer == 11)
         {
             CarMoveSystem.CurrentSpeed = 0;
@@ -30,5 +40,11 @@ public class HitSystem : MonoBehaviour
 
             SphereCollider.AddForce(new Vector3(-direction.x, -direction.y, -direction.z) * Knockback, ForceMode.Impulse);         
         }
+
+        if (gameObject.tag == "Player")
+        {
+            if (other.gameObject.layer == 3 || other.gameObject.layer == 10)     
+                Hit.Play();             
+        }            
     }
 }

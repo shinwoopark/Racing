@@ -20,6 +20,9 @@ public class PlayerSystem : MonoBehaviour
 
     private bool _bSandStorm;
 
+    public AudioSource EngineFoward, BackEngine, Drift, Booster, GetBoosterItem, GetMoneyItem, GetShopItem, SandStorm;
+    private bool _bEngineFoward, _bBackEngine;
+
     void Start()
     {
         EngineUpgrade();
@@ -67,10 +70,46 @@ public class PlayerSystem : MonoBehaviour
         if (Input.GetAxis("Vertical") > 0)
         {
             CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * _fowardPower;
+
+            if (Time.timeScale != 1)
+            {
+                EngineFoward.Stop();
+                _bEngineFoward = false;
+            }
+
+            if (!_bEngineFoward && Time.timeScale != 0)
+            {
+                _bEngineFoward = true;
+                _bBackEngine = false;
+
+                EngineFoward.Play();
+                BackEngine.Stop();
+
+                if (EngineFoward.pitch < 2)
+                    EngineFoward.pitch += Input.GetAxis("Vertical") * Time.deltaTime;
+            }
         }
         else if (Input.GetAxis("Vertical") < 0)
         {
             CarMoveSystem.InputSpeed = Input.GetAxis("Vertical") * _fowardPower / 2;
+
+            if (Time.timeScale != 1)
+            {
+                BackEngine.Stop();
+                _bBackEngine = false;
+            }
+
+            if (!_bBackEngine && Time.timeScale != 0)
+            {
+                _bEngineFoward = false;
+                _bBackEngine = true;
+
+                EngineFoward.Stop();
+                BackEngine.Play();
+
+
+                EngineFoward.pitch = 1;
+            }          
         }
 
         //Turn
@@ -87,6 +126,9 @@ public class PlayerSystem : MonoBehaviour
                 SphereCollider.AddForce(Vector3.up * 500, ForceMode.Impulse);
 
                 CarMoveSystem.CurrentState = CarMoveSystem.State.Drift;
+
+                if (Time.timeScale != 0)
+                    Drift.Play();
             }
         }
 
@@ -102,6 +144,9 @@ public class PlayerSystem : MonoBehaviour
                CarMoveSystem.CurrentSpeed <= 0)
             {
                 CarMoveSystem.CurrentState = CarMoveSystem.State.Move;
+
+                if (Time.timeScale != 1)
+                    Drift.Stop();
             }
         }
 
@@ -111,6 +156,12 @@ public class PlayerSystem : MonoBehaviour
             if (GameInstance.instance.CurrentInventorys[0] != 0)
             {
                 CarMoveSystem.CurrentState = CarMoveSystem.State.Booster;
+
+                if (Time.timeScale != 0)
+                    Booster.Play();
+
+                if (Time.timeScale != 1)
+                    Booster.Stop();
 
                 switch (GameInstance.instance.CurrentInventorys[0])
                 {
@@ -145,10 +196,7 @@ public class PlayerSystem : MonoBehaviour
         {
             if (GameInstance.instance.bMountainOtherItem)
             {
-                if (bMountainOtherItem)
-                    bMountainOtherItem = false;
-                else if (!bMountainOtherItem)
-                    bMountainOtherItem = true;
+                CarMoveSystem.bGlider = true;
             }
         }
     }
@@ -158,6 +206,13 @@ public class PlayerSystem : MonoBehaviour
         if (_bSandStorm)
         {
             SandStormEffect_gb.SetActive(true);
+
+            if (Time.timeScale != 0)
+                SandStorm.Play();
+
+            if (Time.timeScale != 1)
+                SandStorm.Stop();
+
             if (bDesertOtherItem)
             {
                 SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
@@ -175,6 +230,8 @@ public class PlayerSystem : MonoBehaviour
         }
         else
         {
+                SandStorm.Stop();
+
             SandStormEffect_gb.SetActive(false);
 
             SandStorm_img.color -= new Color(0, 0, 0, 0.2f * Time.deltaTime);
@@ -194,6 +251,21 @@ public class PlayerSystem : MonoBehaviour
                 break;
             case "SandStorm":
                 _bSandStorm = true;
+                break;
+            case "Item":
+                switch (other.gameObject.layer)
+                {
+                    case 12:
+                        GetBoosterItem.Play();
+                        break;
+                    case 13:
+                        GetMoneyItem.Play();
+                        break;
+                    case 14:
+                        GetShopItem.Play();
+                        break;
+                }
+                
                 break;
         }
     }

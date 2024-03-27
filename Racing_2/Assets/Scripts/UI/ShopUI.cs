@@ -7,6 +7,8 @@ public class ShopUI : MonoBehaviour
 {
     public PlayerSystem PlayerSystem;
 
+    public AudioSource Buy;
+
     public LockOn[] LockOns;
     public GameObject[] SoldOut;
     public bool[] bLockOff;
@@ -28,10 +30,14 @@ public class ShopUI : MonoBehaviour
                 SoldOut[i].SetActive(true);
         }
 
-        for(int i = 0;i < LockOns.Length; i++)
+        for (int i = 0; i < LockOns.Length; i++)
         {
             if (bLockOff[i])
+            {
+                Debug.Log("!");
                 LockOns[i].bLockOff = true;
+            }
+                
         }
     }
 
@@ -39,6 +45,7 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 3000000 && !bSoldOut[3])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 3000000;
             GameInstance.instance.bDesertWheel = true;
             bSoldOut[3] = true;
@@ -49,6 +56,7 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 3000000 && !bSoldOut[4])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 3000000;
             GameInstance.instance.bMountainWheel = true;
             bSoldOut[4] = true;
@@ -60,6 +68,7 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 3000000 && !bSoldOut[5])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 3000000;
             GameInstance.instance.bCityWheel = true;
             bSoldOut[5] = true;
@@ -70,6 +79,7 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 3000000 && !bSoldOut[0])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 3000000;
             GameInstance.instance.CurrentPlayerEngineLever++;
             PlayerSystem.EngineUpgrade();
@@ -84,6 +94,7 @@ public class ShopUI : MonoBehaviour
             return;
         if (GameInstance.instance.CurrentMoney >= 6000000 && !bSoldOut[1])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 6000000;
             GameInstance.instance.CurrentPlayerEngineLever++;
             PlayerSystem.EngineUpgrade();
@@ -98,6 +109,7 @@ public class ShopUI : MonoBehaviour
             return;
         if (GameInstance.instance.CurrentMoney >= 9000000 && !bSoldOut[2])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 9000000;
             GameInstance.instance.CurrentPlayerEngineLever++;
             PlayerSystem.EngineUpgrade();
@@ -109,6 +121,7 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 3000000 && !bSoldOut[6])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 3000000;
             GameInstance.instance.bDesertOtherItem = true;
             bSoldOut[6] = true;
@@ -119,8 +132,9 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 4000000 && !bSoldOut[7])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 4000000;
-            GameInstance.instance.bDesertOtherItem = true;
+            GameInstance.instance.bMountainOtherItem = true;
             bSoldOut[7] = true;
         }          
     }
@@ -129,8 +143,9 @@ public class ShopUI : MonoBehaviour
     {
         if (GameInstance.instance.CurrentMoney >= 5000000 && !bSoldOut[8])
         {
+            Buy.Play();
             GameInstance.instance.CurrentMoney -= 5000000;
-            GameInstance.instance.bDesertOtherItem = true;
+            GameInstance.instance.bCityOtherItem = true;
             bSoldOut[8] = true;
         }         
     }

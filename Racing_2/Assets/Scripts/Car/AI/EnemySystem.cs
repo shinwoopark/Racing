@@ -38,6 +38,9 @@ public class EnemySystem : MonoBehaviour
 
     private void UpdateFolloWayPoint()
     {
+        if (!GameInstance.instance.bRacing)
+            return;
+
         CarMoveSystem.InputSpeed = FowardPower;
 
         Vector3 dir = WayPoint.GetChild(_wayPointNumber).transform.position - transform.position;
@@ -84,6 +87,9 @@ public class EnemySystem : MonoBehaviour
     {
         if (other.gameObject.transform == WayPoint.GetChild(_wayPointNumber))
         {
+            if (!GameInstance.instance.bRacing)
+                return;
+
             _wayPointNumber++;
         }
 

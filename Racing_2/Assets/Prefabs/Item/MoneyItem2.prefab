@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 6346246112104867169}
   - component: {fileID: 2666604562801738402}
   - component: {fileID: 8163674890532085162}
-  m_Layer: 6
+  - component: {fileID: -1381901030234582716}
+  m_Layer: 13
   m_Name: MoneyItem2
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -69,6 +70,102 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3483104, y: 1, z: 1}
   m_Center: {x: -0.0034159662, y: 0, z: 0}
+--- !u!82 &-1381901030234582716
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2851449495127483879}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4fe65b452c201f54f812e463ba7dd747, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6546609888832955658
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +177,7 @@ GameObject:
   - component: {fileID: 6280153683178479795}
   - component: {fileID: 5134033260017022740}
   - component: {fileID: 1378942652777112742}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Gold_ChestRoof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +260,7 @@ GameObject:
   - component: {fileID: 3683281764065817467}
   - component: {fileID: 8865532124232695198}
   - component: {fileID: 1107409189556186801}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Gold_Chest_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
