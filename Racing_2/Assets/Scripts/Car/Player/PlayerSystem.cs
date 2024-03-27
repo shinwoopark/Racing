@@ -197,6 +197,10 @@ public class PlayerSystem : MonoBehaviour
             if (GameInstance.instance.bMountainOtherItem)
             {
                 CarMoveSystem.bGlider = true;
+                if (CarMoveSystem.bGlider)
+                    CarMoveSystem.bGlider = false;
+                else if (!CarMoveSystem.bGlider)
+                    CarMoveSystem.bGlider = true;
             }
         }
     }

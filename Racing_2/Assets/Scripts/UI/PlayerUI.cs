@@ -61,7 +61,7 @@ public class PlayerUI : MonoBehaviour
         }
         if (GameInstance.instance.bMountainOtherItem)
         {
-            if (PlayerSystem.bMountainOtherItem)
+            if (PlayerSystem.CarMoveSystem.bGlider)
             {
                 OnMountainOther_gb.SetActive(true);
                 OffMountainOther_gb.SetActive(false);
@@ -71,8 +71,7 @@ public class PlayerUI : MonoBehaviour
             {
                 OnMountainOther_gb.SetActive(false);
                 OffMountainOther_gb.SetActive(true);
-            }
-                
+            }            
         }            
         //if (GameInstance.instance.bCityOtherItem)
         //{

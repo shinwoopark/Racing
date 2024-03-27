@@ -136,7 +136,7 @@ public class CarMoveSystem : MonoBehaviour
         }
 
         //Foward
-        if (bGround)
+        if (bGround|| bGlider)
         {
             SphereCollider.drag = 3;
             SphereCollider.AddForce(transform.forward * CurrentSpeed);
